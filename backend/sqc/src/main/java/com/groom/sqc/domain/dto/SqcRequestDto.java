@@ -1,17 +1,15 @@
 package com.groom.sqc.domain.dto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
 @Builder
+@AllArgsConstructor
 public class SqcRequestDto {
 
     private String name;
-    private List<String> tags;
+    private List<String> tag;
     private String brand;
     private String sex;
     private Integer size;
