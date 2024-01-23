@@ -1,0 +1,22 @@
+springdoc:
+  packages-to-scan: com.groom.sqc.controllers
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: sqc
+      username: sqc_user
+      password: 1234
+      database: sqc
+      # uri: mongodb: //546.465.445:27017/qwerqwer 몽고디비
+python:
+  server:
+    host: http://localhost:5000/
