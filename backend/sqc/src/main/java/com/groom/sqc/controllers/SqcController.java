@@ -31,16 +31,14 @@ public class SqcController {
       return sqcService.shoesList(sqcRequestDto);
     }
 
-    @GetMapping("/findShoes/{id}")
+    @GetMapping("/findShoes/id/{id}")
     @ResponseBody
-    public SqcResponseDto getShoes(@PathVariable Long id){
-        //신발 디테일
-        log.info("shoes Detail {}",id);
+    public SqcResponseDto getShoes(@PathVariable String id){
         return postShoes(id);
     }
 
     @PostMapping("/findShoes")
-    public SqcResponseDto postShoes(Long id){
+    public SqcResponseDto postShoes(String id){
         return sqcService.shoes(id);
     }
 
