@@ -10,13 +10,8 @@ springdoc:
 spring:
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      authentication-database: sqc
-      username: sqc_user
-      password: 1234
-      database: sqc
-      # uri: mongodb: //546.465.445:27017/qwerqwer 몽고디비
+      uri: mongodb+srv://bangjh123444:1234@sqccluster.zefttcz.mongodb.net/sqc?
+# %21 : ! , %40 : @
 python:
   server:
-    host: http://localhost:5000/
+    host: http://localhost:5000
