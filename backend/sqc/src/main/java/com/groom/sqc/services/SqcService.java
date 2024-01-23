@@ -27,9 +27,6 @@ public class SqcService {
     public List<SqcResponseDto> shoesList(SqcRequestDto sqcRequestDto) {
         // 1. 요청 들어온 데이터를 Python에게 전달 후 리턴값으로 몽고 DB에 저장된 키 값을 응답 받음
         ResponseEntity<String> responseEntity = apiServerHttpClient.sendPostRequest("/findShoes", sqcRequestDto);
-        log.info("response status : {}", responseEntity.getStatusCode());
-        log.info("response value : {}", responseEntity.getBody());
-
         String body = responseEntity.getBody();
 
         // 입력 문자열을 ":"를 기준으로 분리하여 id를 추출
@@ -43,20 +40,11 @@ public class SqcService {
         // 2. 연결된 몽고 DB에서 키 값을 기준으로 조회후 List<SqcResponseDto>로 반환
         // 몽고디비에서 데이터를 조회하고 SqcVo 리스트를 얻어옵니다.
         // ID 범위 안의 sqcDocument 를 sqcResponseDto 형식으로 변환 후 리스트화
-        Optional<SqcDocument> a = sqcDocumentRepository.findById(startToken);
-        Optional<SqcDocument> b = sqcDocumentRepository.findById(endToken);
-        log.info("SqcDocument a  {} : ",a.orElse(new SqcDocument()));
-        log.info("SqcDocument b  {} : ",b.orElse(new SqcDocument()));
 
-        List<SqcResponseDto> sqcResponseDtoList = sqcDocumentRepository.findByIdRange(objectStart, objectEnd)
-                .stream()
-                .map(SqcResponseDto::new)
-                .collect(Collectors.toList());
-
-        log.info("scqResponseDtoList {} : ",sqcResponseDtoList);
-
-
-    return sqcResponseDtoList;
+    return sqcDocumentRepository.findByIdRange(objectStart, objectEnd)
+            .stream()
+            .map(SqcResponseDto::new)
+            .collect(Collectors.toList());
 
     }
 
