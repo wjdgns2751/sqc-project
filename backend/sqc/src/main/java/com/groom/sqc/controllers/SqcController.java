@@ -21,8 +21,6 @@ public class SqcController {
     @GetMapping("/findShoesList")
     @ResponseBody
     public List<SqcResponseDto> getShoesList(SqcRequestDto requestDto){
-        //신발 정보 내놔라
-        log.info("shoes List {}",requestDto.toString());
         return postShoesList(requestDto);
     }
 
