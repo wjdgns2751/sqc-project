@@ -77,9 +77,11 @@ def post_product():
                 if len(price) == 1:
                     # 할인가격 없을시 현재가격
                     price = price[0]
+                    price = int(re.sub('[^0-9]', '', price))
                 else:
                     # 할인 가격이 있을 시 할인 가격을 추가
-                    price = (price[1])
+                    price = price[1]
+                    price = int(re.sub('[^0-9]', '', price))
 
                 # 셀레니움으로 원하는 데이터 가져오기
                 driver = webdriver.Chrome(options=options)
@@ -114,6 +116,7 @@ def post_product():
                         for size in sizes:
                             size = size.get_text()
                             if size.find('옵션') and size.find('품절') == -1:
+                                size = int(re.sub('[^0-9]', '', size))
                                 size_list.append(size)
                                 
                         all_size.append({color:size_list})
@@ -125,6 +128,7 @@ def post_product():
                         size = size.get_text()
                         size = re.sub('[^0-9가-힣\(\)]', '', size)
                         if size.find('옵션') and size.find('품절') == -1:
+                            size = int(re.sub('[^0-9]', '', size))
                             all_size.append(size)
                         
                 # 제품 사이트 내 태그 가져오기
