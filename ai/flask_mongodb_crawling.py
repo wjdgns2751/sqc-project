@@ -116,7 +116,6 @@ def post_product():
                         for size in sizes:
                             size = size.get_text()
                             if size.find('옵션') and size.find('품절') == -1:
-                                size = int(re.sub('[^0-9]', '', size))
                                 size_list.append(size)
                                 
                         all_size.append({color:size_list})
@@ -128,7 +127,6 @@ def post_product():
                         size = size.get_text()
                         size = re.sub('[^0-9가-힣\(\)]', '', size)
                         if size.find('옵션') and size.find('품절') == -1:
-                            size = int(re.sub('[^0-9]', '', size))
                             all_size.append(size)
                         
                 # 제품 사이트 내 태그 가져오기
