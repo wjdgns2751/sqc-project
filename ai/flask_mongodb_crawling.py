@@ -77,9 +77,11 @@ def post_product():
                 if len(price) == 1:
                     # 할인가격 없을시 현재가격
                     price = price[0]
+                    price = int(re.sub('[^0-9]', '', price))
                 else:
                     # 할인 가격이 있을 시 할인 가격을 추가
-                    price = (price[1])
+                    price = price[1]
+                    price = int(re.sub('[^0-9]', '', price))
 
                 # 셀레니움으로 원하는 데이터 가져오기
                 driver = webdriver.Chrome(options=options)
