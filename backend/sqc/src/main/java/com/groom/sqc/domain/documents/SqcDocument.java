@@ -10,24 +10,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 import java.util.Map;
 
-@Document(collection = "shoes")
+//실제 데이터베이스 : product / 테스트 : shoes
+
+@Document(collection = "product")
 @AllArgsConstructor
 @Getter
 @RequiredArgsConstructor
-public class SqcDocument {
+public class SqcDocument<T> {
 
     @Id
     private ObjectId id;
     private String brand;
+    private String name;
+    private List<String> tag;
+    private String sex;
+    private Integer price;
+    private List<T> size;
+    private String view;
     private String buy;
     private String like;
-    private String name;
-    private String price;
     private String review;
-    private String sex;
-    private List<Map<String, List<String>>> size;
-    private List<String> tag;
     private String url;
-    private String view;
-
+    private String img;
 }
