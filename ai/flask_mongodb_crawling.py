@@ -195,8 +195,18 @@ def post_product():
 def read_product_info():
     name = request.args.get('name', {'$ne': ''})
     tag = request.args.get('tag', {'$ne': ''})
+    if tag == {'$ne': ''}:
+        tag = tag
+    elif ',' in tag:
+        tag = tag.split(',')
+        tag = {'$all': tag}
+    else:
+        tag = [tag]
+        tag = {'all': tag}
     brand = request.args.get('brand', {'$ne': ''})
-    sex = request.args.get('sex', '남성여성')
+    sex = request.args.get('sex', {'$ne': ''})
+    if sex != {'$ne': ''}:
+        sex = {'$regex': sex)
     size = request.args.get('size', {'$ne': ''})      
     minPrice = request.args.get('minPrice', 1000)
     if minPrice == '':
@@ -208,7 +218,7 @@ def read_product_info():
     maxPrice = int(maxPrice)
     
     # mongodb에서 조건에 맞는 data 조회
-    product_infos = list(db.product.find({'name': name, 'tag': tag, 'brand': brand, 'sex': {'$regex': sex}, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}},
+    product_infos = list(db.product.find({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}},
                                          {'_id': False}))
     return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
 
