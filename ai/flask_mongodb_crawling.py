@@ -159,6 +159,13 @@ def post_product():
                     review = sel_soup.find_all('span', {'id':'review_total'})[0].get_text()
                 except:
                     review_num.append('')
+
+                # 스니커즈 사진 가져오기
+                try:
+                    img = sel_soup.select('#product-left-top > div.product-detail__sc-p62agb-0.lfknLw > div > img')
+                    img = img[0].attrs['src']
+                except:
+                    img = ''
                 
                 # 드라이버 닫아주기
                 driver.close()
@@ -177,6 +184,7 @@ def post_product():
                     'like': like,
                     'review': review,
                     'url': url
+                    'img' : img
                 }
                 
                 db.product.update_one({"name": name}, product_info, upsert=True)
