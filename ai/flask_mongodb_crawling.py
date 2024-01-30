@@ -159,6 +159,13 @@ def post_product():
                     review = sel_soup.find_all('span', {'id':'review_total'})[0].get_text()
                 except:
                     review_num.append('')
+
+                # 스니커즈 사진 가져오기
+                try:
+                    img = sel_soup.select('#product-left-top > div.product-detail__sc-p62agb-0.lfknLw > div > img')
+                    img = img[0].attrs['src']
+                except:
+                    img = ''
                 
                 # 드라이버 닫아주기
                 driver.close()
@@ -177,6 +184,7 @@ def post_product():
                     'like': like,
                     'review': review,
                     'url': url
+                    'img' : img
                 }
                 
                 db.product.update_one({"name": name}, product_info, upsert=True)
@@ -184,6 +192,37 @@ def post_product():
     return jsonify({'result': 'success', 'msg': '성공적으로 작성되었습니다'})
 
 @app.route('/product', methods=['GET'])
+def read_product_info():
+    name = request.args.get('name', {'$ne': ''})
+    tag = request.args.get('tag', {'$ne': ''})
+    if tag == {'$ne': ''}:
+        tag = tag
+    elif ',' in tag:
+        tag = tag.split(',')
+        tag = {'$all': tag}
+    else:
+        tag = [tag]
+        tag = {'all': tag}
+    brand = request.args.get('brand', {'$ne': ''})
+    sex = request.args.get('sex', {'$ne': ''})
+    if sex != {'$ne': ''}:
+        sex = {'$regex': sex)
+    size = request.args.get('size', {'$ne': ''})      
+    minPrice = request.args.get('minPrice', 1000)
+    if minPrice == '':
+        minPrice = 1000
+    minPrice = int(minPrice)
+    maxPrice = request.args.get('maxPrice', 999999)
+    if maxPrice == '':
+        maxPrice = 999999
+    maxPrice = int(maxPrice)
+    
+    # mongodb에서 조건에 맞는 data 조회
+    product_infos = list(db.product.find({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}},
+                                         {'_id': False}))
+    return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
+
+@app.route('/all_product', methods=['GET'])
 def read_info():
     # mongodb에서 모든 데이터 조회
     product_infos = list(db.product.find({}, {'_id': False}))
