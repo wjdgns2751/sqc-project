@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqc-ai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sqc-ai
+    metadata:
+      labels:
+        app: sqc-ai
+    spec:
+      containers:
+      - name: sqc-ai
+        image: your-dockerhub-username/single-container-image:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: mongodb-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqc-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sqc-frontend
+  template:
+    metadata:
+      labels:
+        app: sqc-frontend
+    spec:
+      containers:
+      - name: sqc-frontend
+        image: your-dockerhub-username/single-container-image:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqc-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sqc-backend
+  template:
+    metadata:
+      labels:
+        app: sqc-backend
+    spec:
+      containers:
+      - name: sqc-backend
+        image: your-dockerhub-username/single-container-image:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - secretRef:
+            name: mongodb-secret
