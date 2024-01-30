@@ -1,6 +1,7 @@
 # 크롤링용 라이브러리
 import re
 import time
+import os
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -21,8 +22,9 @@ from pymongo.server_api import ServerApi
 
 app = Flask(__name__)
 
-uri = "mongodb+srv://SQC1415:nlpq8s1514@cluster0.eyigtrn.mongodb.net/?retryWrites=true&w=majority"
+uri = os.getenv('MONGODB_URI')
 # Create a new client and connect to the server
+
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.SQC
 
