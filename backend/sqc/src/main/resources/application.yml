@@ -10,9 +10,8 @@ springdoc:
 spring:
   data:
     mongodb:
-        uri: mongodb+srv://asdf:asdf1234@cluster0.eyigtrn.mongodb.net/SQC?
-#       uri: mongodb+srv://bangjh123444:1234@sqccluster.zefttcz.mongodb.net/sqc?
-# %21 : ! , %40 : @
+       uri: ${MONGODB_URI}
+
 python:
   server:
-    host: http://localhost:5000
+    host: http://sqc-ai-service
