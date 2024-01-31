@@ -6,19 +6,20 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sqc-ai
+      app: sqc-ai-pod
+  template:
     metadata:
       labels:
-        app: sqc-ai
+        app: sqc-ai-pod
     spec:
       containers:
-      - name: sqc-ai
-        image: your-dockerhub-username/single-container-image:latest
-        ports:
-        - containerPort: 8080
-        envFrom:
-        - secretRef:
-            name: mongodb-secret
+        - name: sqc-ai-pod
+          image: wjdgns2/sqc-ai:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: mongodb-secret
 
 ---
 apiVersion: apps/v1
@@ -29,15 +30,15 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sqc-frontend
+      app: sqc-frontend-pod
   template:
     metadata:
       labels:
-        app: sqc-frontend
+        app: sqc-frontend-pod
     spec:
       containers:
-      - name: sqc-frontend
-        image: your-dockerhub-username/single-container-image:latest
+      - name: sqc-frontend-pod
+        image: wjdgns2/sqc-frontend:latest
         ports:
         - containerPort: 8080
 
@@ -50,15 +51,15 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: sqc-backend
+      app: sqc-backend-pod
   template:
     metadata:
       labels:
-        app: sqc-backend
+        app: sqc-backend-pod
     spec:
       containers:
-      - name: sqc-backend
-        image: your-dockerhub-username/single-container-image:latest
+      - name: sqc-backend-pod
+        image: wjdgns2/sqc-backend:latest
         ports:
         - containerPort: 8080
         envFrom:
