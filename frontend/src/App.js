@@ -22,7 +22,7 @@ function App() {
             }}
             icon={<DownloadOutlined />}
           >
-            상품 업로드
+            AI 추천받기
           </Button>
         </div>
       </div>
