@@ -3,7 +3,6 @@ import re
 import time
 import os
 import requests
-import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -185,7 +184,7 @@ def post_product():
                     'buy': buy,
                     'like': like,
                     'review': review,
-                    'url': url
+                    'url': url,
                     'img' : img
                 }
                 
@@ -208,7 +207,7 @@ def read_product_info():
     brand = request.args.get('brand', {'$ne': ''})
     sex = request.args.get('sex', {'$ne': ''})
     if sex != {'$ne': ''}:
-        sex = {'$regex': sex)
+        sex = {'$regex': sex}
     size = request.args.get('size', {'$ne': ''})      
     minPrice = request.args.get('minPrice', 1000)
     if minPrice == '':
