@@ -4,7 +4,7 @@ metadata:
   name: sqc-frontend-service
 spec:
   selector:
-    app: sqc-frontend  # Frontend Deployment의 레이블을 선택합니다.
+    app: sqc-frontend-pod   # Frontend Deployment의 레이블을 선택합니다.
   ports:
     - protocol: TCP
       port: 80  # 서비스가 노출할 포트입니다.
@@ -17,7 +17,7 @@ metadata:
   name: sqc-backend-service
 spec:
   selector:
-    app: sqc-backend  # Backend Deployment의 레이블을 선택합니다.
+    app: sqc-backend-pod  # Backend Deployment의 레이블을 선택합니다.
   ports:
     - protocol: TCP
       port: 80  # 서비스가 노출할 포트입니다.
@@ -30,7 +30,7 @@ metadata:
   name: sqc-ai-service
 spec:
   selector:
-    app: sqc-ai  # AI Deployment의 레이블을 선택합니다.
+    app: sqc-ai-pod   # AI Deployment의 레이블을 선택합니다.
   ports:
     - protocol: TCP
       port: 80  # 서비스가 노출할 포트입니다.
