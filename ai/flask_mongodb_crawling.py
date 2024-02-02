@@ -195,24 +195,38 @@ def post_product():
 @app.route('/product', methods=['GET'])
 def read_product_info():
     name = request.args.get('name', {'$ne': ''})
+    if name == "":
+        name = {'$ne': ''}
+        
     tag = request.args.get('tag', {'$ne': ''})
-    if tag == {'$ne': ''}:
-        tag = tag
+    if tag == "":
+        tag = {'$ne': ''}
     elif ',' in tag:
         tag = tag.split(',')
         tag = {'$all': tag}
     else:
         tag = [tag]
         tag = {'all': tag}
+        
     brand = request.args.get('brand', {'$ne': ''})
+    if brand == "":
+        brand = {'$ne': ''}
+        
     sex = request.args.get('sex', {'$ne': ''})
     if sex != {'$ne': ''}:
         sex = {'$regex': sex}
-    size = request.args.get('size', {'$ne': ''})      
+    elif sex == "":
+        sex = {'$ne': ''}
+        
+    size = request.args.get('size', {'$ne': ''}) 
+    if size == "":
+        size = {'$ne': ''}
+        
     minPrice = request.args.get('minPrice', 1000)
     if minPrice == '':
         minPrice = 1000
     minPrice = int(minPrice)
+    
     maxPrice = request.args.get('maxPrice', 999999)
     if maxPrice == '':
         maxPrice = 999999
