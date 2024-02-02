@@ -18,26 +18,18 @@ import java.util.List;
 public class SqcController {
     private final SqcService sqcService;
 
+
     @GetMapping("/findShoesList")
     @ResponseBody
-    public List<SqcResponseDto> getShoesList(SqcRequestDto requestDto){
-        return postShoesList(requestDto);
-    }
-
-    @PostMapping("/findShoesList")
-    public List<SqcResponseDto> postShoesList(SqcRequestDto sqcRequestDto){
-      return sqcService.shoesList(sqcRequestDto);
+    public List<SqcResponseDto> findShoesList(SqcRequestDto requestDto){
+        return sqcService.shoesList(requestDto);
     }
 
     @GetMapping("/findShoes/id/{id}")
     @ResponseBody
     public SqcResponseDto getShoes(@PathVariable String id){
-        return postShoes(id);
-    }
-
-    @PostMapping("/findShoes")
-    public SqcResponseDto postShoes(String id){
         return sqcService.shoes(id);
     }
+
 
 }

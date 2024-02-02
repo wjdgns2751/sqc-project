@@ -1,7 +1,6 @@
 package com.groom.sqc.services;
 
 import com.groom.sqc.common.ApiServerHttpClient;
-import com.groom.sqc.domain.documents.SqcDocument;
 import com.groom.sqc.domain.dto.SqcRequestDto;
 import com.groom.sqc.domain.dto.SqcResponseDto;
 import com.groom.sqc.repository.SqcDocumentRepository;
@@ -24,9 +23,17 @@ public class SqcService {
     private final SqcDocumentRepository sqcDocumentRepository;
     private final ApiServerHttpClient apiServerHttpClient;
 
+
     public List<SqcResponseDto> shoesList(SqcRequestDto sqcRequestDto) {
         // 1. 요청 들어온 데이터를 Python에게 전달 후 리턴값으로 몽고 DB에 저장된 키 값을 응답 받음
-        ResponseEntity<String> responseEntity = apiServerHttpClient.sendPostRequest("/findShoes", sqcRequestDto);
+        // 요청 파라미터가 존재하지 않으면 [ 전체 ] 존재하면 [ 검색]
+
+        Optional<Object> optionalObject = Optional.ofNullable(sqcRequestDto);
+        String url = optionalObject.isPresent() ? "/showShoesList" : "/findShoesList";
+
+
+        log.info("url : {}",url);
+        ResponseEntity<String> responseEntity = apiServerHttpClient.sendPostRequest(url, sqcRequestDto);
         String body = responseEntity.getBody();
 
         // 입력 문자열을 ":"를 기준으로 분리하여 id를 추출
@@ -49,8 +56,7 @@ public class SqcService {
     }
 
     public SqcResponseDto shoes(String id) {
-        Optional<SqcDocument> sqcDocument = sqcDocumentRepository.findById(id);
-        return sqcDocument
+        return sqcDocumentRepository.findById(id)
                 .map(SqcResponseDto::new)
                 .orElseThrow(() -> new NotFoundException("SqcDocument not found with id: " + id));
     }

@@ -27,13 +27,14 @@ public class ApiServerHttpClient implements ServerHttpClient {
         stringBuilder.append(url);
         log.info("header {}", headers);
         log.info("url {}", stringBuilder);
-        // RestTemplate 을 사용하여 Python 서버로 POST 요청 보내기
+        // RestTemplate 을 사용하여 Python 서버로 GET 요청 보내기
         RestTemplate restTemplate = new RestTemplate();
         return  restTemplate.exchange(
                 stringBuilder.toString(),
-                HttpMethod.POST,
+                HttpMethod.GET,
                 new HttpEntity<>(requestData, headers),
                 String.class
         );
     }
+
 }
