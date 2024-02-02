@@ -15,8 +15,6 @@ spec:
       containers:
         - name: sqc-ai-pod
           image: wjdgns2/sqc-ai:latest
-          ports:
-            - containerPort: 8080
           envFrom:
             - secretRef:
                 name: mongodb-secret
@@ -39,8 +37,7 @@ spec:
       containers:
       - name: sqc-frontend-pod
         image: wjdgns2/sqc-frontend:latest
-        ports:
-        - containerPort: 8080
+
 
 ---
 apiVersion: apps/v1
@@ -60,8 +57,6 @@ spec:
       containers:
       - name: sqc-backend-pod
         image: wjdgns2/sqc-backend:latest
-        ports:
-        - containerPort: 8080
         envFrom:
         - secretRef:
             name: mongodb-secret

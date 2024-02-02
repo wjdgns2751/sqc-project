@@ -4,12 +4,12 @@ metadata:
   name: sqc-frontend-service
 spec:
   selector:
-    app: sqc-frontend-pod   # Frontend Deployment의 레이블을 선택합니다.
+    app: sqc-frontend-pod
   ports:
     - protocol: TCP
-      port: 80  # 서비스가 노출할 포트입니다.
-      targetPort: 8080  # 파드가 사용하는 포트입니다. Deployment의 containerPort와 일치해야 합니다.
-  type: ClusterIP  # 외부로 노출하기 위해 LoadBalancer 타입을 사용합니다.
+      port: 80
+      targetPort: 80
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -17,12 +17,12 @@ metadata:
   name: sqc-backend-service
 spec:
   selector:
-    app: sqc-backend-pod  # Backend Deployment의 레이블을 선택합니다.
+    app: sqc-backend-pod
   ports:
     - protocol: TCP
-      port: 80  # 서비스가 노출할 포트입니다.
-      targetPort: 8080  # 파드가 사용하는 포트입니다. Deployment의 containerPort와 일치해야 합니다.
-  type: ClusterIP  # 클러스터 내부에서만 접근 가능한 서비스입니다.
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Service
@@ -30,9 +30,9 @@ metadata:
   name: sqc-ai-service
 spec:
   selector:
-    app: sqc-ai-pod   # AI Deployment의 레이블을 선택합니다.
+    app: sqc-ai-pod
   ports:
     - protocol: TCP
-      port: 80  # 서비스가 노출할 포트입니다.
-      targetPort: 8080  # 파드가 사용하는 포트입니다. Deployment의 containerPort와 일치해야 합니다.
-  type: ClusterIP  # 클러스터 내부에서만 접근 가능한 서비스입니다.
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
