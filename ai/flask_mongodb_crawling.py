@@ -19,7 +19,8 @@ from pymongo.server_api import ServerApi
 
 app = Flask(__name__)
 
-uri = os.getenv('MONGODB_URI')
+uri = os.getenv('MONGODB_URI') # 클라우드 환경 시 주석해제
+# uri = "mongodb+srv://SQC1415:nlpq8s1514@cluster0.eyigtrn.mongodb.net/SQC?" #로컬 서버 테스트 시 주석해제
 # Create a new client and connect to the server
 
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -124,7 +125,7 @@ def post_product():
                     sizes = sel_soup.select('#option1 > option')
                     for size in sizes:
                         size = size.get_text()
-                        size = re.sub('[^0-9가-힣\(\)]', '', size)
+                        size = re.sub('[^0-9가-힣\\(\\)]', '', size)
                         if size.find('옵션') and size.find('품절') == -1:
                             all_size.append(size)
                         
@@ -190,7 +191,7 @@ def post_product():
                 
     return jsonify({'result': 'success', 'msg': '성공적으로 작성되었습니다'})
 
-@app.route('/product', methods=['GET'])
+@app.route('/findShoesList', methods=['GET'])
 def read_product_info():
     name = request.args.get('name', {'$ne': ''})
     if name == "":
@@ -231,15 +232,43 @@ def read_product_info():
     maxPrice = int(maxPrice)
     
     # mongodb에서 조건에 맞는 data 조회
-    product_infos = list(db.product.find({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}},
-                                         {'_id': False}))
-    return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
+    # product_infos = list(db.product.find({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}},
+    #                                      {'_id': False}))
+    # print(product_infos)
+    # return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
 
-@app.route('/all_product', methods=['GET'])
+    # 첫 번째 문서 가져오기
+    first_document = db.product.find_one({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}}, {'_id': True}, sort=[('_id', 1)])
+
+    # 마지막 문서 가져오기
+    last_document = db.product.find_one({'name': name, 'tag': tag, 'brand': brand, 'sex': sex, 'size': size, 'price': {'$gte':minPrice},'price': {'$lte':maxPrice}}, {'_id': True}, sort=[('_id', -1)])
+
+    # 가져온 문서의 _id 값 추출
+    first_id = first_document['_id'] if first_document else None
+    last_id = last_document['_id'] if last_document else None
+
+    # 결과 출력
+    response = f"startId: {first_id}, endId: {last_id}"
+
+    return response
+
+
+@app.route('/showShoesList', methods=['GET'])
 def read_info():
     # mongodb에서 모든 데이터 조회
-    product_infos = list(db.product.find({}, {'_id': False}))
-    return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
+    # product_infos = list(db.product.find({}, {'_id': True}))
+    # MongoDB에서 맨 처음과 맨 마지막 문서를 가져오는 쿼리 작성
+    first_document = db.product.find_one({}, {'_id': True}, sort=[('_id', 1)])
+    last_document = db.product.find_one({}, {'_id': True}, sort=[('_id', -1)])
+
+    # 가져온 문서의 _id 값 추출
+    first_id = first_document['_id']
+    last_id = last_document['_id']
+
+    response = f"startId: {first_id}, endId: {last_id}"
+
+    return response
+    # return jsonify({'result': 'success', 'msg': '성공적으로 상품를 가져왔습니다.', 'infos': product_infos})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
