@@ -11,24 +11,17 @@ dayjs.locale("ko");
 
 function MainComponent() {
   const [products, setProducts] = React.useState([]);
-  React.useEffect(
-    function () {
-      axios
-        .get(`${API_URL}/findShoesList`, {
-          params: {
-            paramKey: paramValue, // 요구사항 값을 파라미터로 전달
-          },
-        })
-        .then(function (result) {
-          const products = result.data.products;
-          setProducts(products);
-        })
-        .catch(function (error) {
-          console.error("에러 발생 : ", error);
-        });
-    },
-    [paramValue]
-  ); // paramValue가 변경될 때마다 useEffect가 실행되도록 설정
+  React.useEffect(function () {
+    axios
+      .get(`${API_URL}/findShoesList`)
+      .then(function (result) {
+        const products = result.data.products;
+        setProducts(products);
+      })
+      .catch(function (error) {
+        console.error("에러 발생 : ", error);
+      });
+  }, []);
 
   return (
     <div>
