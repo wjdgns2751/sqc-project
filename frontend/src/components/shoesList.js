@@ -9,7 +9,7 @@ function ListComponent() {
   const [product, setProduct] = useState(null);
   useEffect(function () {
     axios
-      .get(`${API_URL}/products/${id}`)
+      .get(`${API_URL}/findShoes/id/${id}`)
       .then(function (result) {
         setProduct(result.data.product);
       })

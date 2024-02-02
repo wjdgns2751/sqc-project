@@ -13,7 +13,7 @@ function MainComponent() {
   const [products, setProducts] = React.useState([]);
   React.useEffect(function () {
     axios
-      .get(`${API_URL}/products`)
+      .get(`${API_URL}/findShoesList`)
       .then(function (result) {
         const products = result.data.products;
         setProducts(products);
