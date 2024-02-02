@@ -7,15 +7,13 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 # webdriver가 안보이게 설정
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
 
-from flask import Flask, render_template, jsonify, request
+# flask, mongodb 라이브러리
+from flask import Flask, jsonify, request
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
