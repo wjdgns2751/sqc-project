@@ -1,11 +1,14 @@
-# 베이스 이미지로부터 시작 (OpenJDK 사용)
-FROM openjdk:17-jdk-slim
-
-# 작업 디렉토리 설정
+# 빌드 단계: 그레이들 빌드
+FROM gradle:latest AS build
 WORKDIR /app
+COPY build.gradle settings.gradle ./
+COPY gradle ./gradle
+COPY src ./src
+RUN gradle build -x test
 
-# 호스트의 현재 디렉토리에 있는 JAR 파일을 컨테이너의 /app 디렉토리로 복사
-COPY build/libs/sqc-0.0.1-SNAPSHOT.jar /app/sqc-backend.jar
-
-# 애플리케이션 실행 명령
+# 실행 단계: OpenJDK 17 JRE 이미지 사용
+FROM openjdk:17-jdk-slim AS runtime
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar ./sqc-backend.jar
+EXPOSE 8080
 CMD ["java", "-jar", "sqc-backend.jar"]
