@@ -10,8 +10,9 @@ springdoc:
 spring:
   data:
     mongodb:
-       uri: ${MONGODB_URI}
-
+        uri: ${MONGODB_URI} #클라우드 환경
+#        uri : "mongodb+srv://SQC1415:nlpq8s1514@cluster0.eyigtrn.mongodb.net/SQC?" # 로컬 테스트
 python:
   server:
-    host: http://sqc-ai-service
+    host: http://sqc-ai-service #클라우드 환경
+#     host: http://localhost:5000 #로컬 테스트
