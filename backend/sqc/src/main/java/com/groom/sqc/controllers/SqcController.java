@@ -15,6 +15,8 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+//@CrossOrigin(origins = "http://sqc-frontend-service")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SqcController {
     private final SqcService sqcService;
 

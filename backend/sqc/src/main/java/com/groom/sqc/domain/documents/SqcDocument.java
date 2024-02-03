@@ -19,7 +19,7 @@ import java.util.Map;
 public class SqcDocument<T> {
 
     @Id
-    private ObjectId id;
+    private String id;
     private String brand;
     private String name;
     private List<String> tag;

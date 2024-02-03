@@ -52,7 +52,6 @@ public class SqcService {
             .stream()
             .map(SqcResponseDto::new)
             .collect(Collectors.toList());
-
     }
 
     public SqcResponseDto shoes(String id) {
